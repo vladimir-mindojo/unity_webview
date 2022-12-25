@@ -144,25 +144,21 @@ public class WebViewObject : MonoBehaviour
     /// Called from Java native plugin to set when the keyboard is opened
     public void SetKeyboardVisible(string pIsVisible)
     {
-        if (BottomAdjustmentDisabled())
-        {
-            return;
-        }
         bool isKeyboardVisible0 = mIsKeyboardVisible;
         mIsKeyboardVisible = (pIsVisible == "true");
-        if (mIsKeyboardVisible != isKeyboardVisible0 || mIsKeyboardVisible)
+        if (mIsKeyboardVisible)
         {
-            SetMargins(mMarginLeft, mMarginTop, mMarginRight, mMarginBottom, mMarginRelative);
+            SetMargins(mMarginLeft, mMarginTop, mMarginRight, AdjustBottomMargin(mMarginBottom), mMarginRelative);
+        }
+        else
+        {
+            SetMargins(mMarginLeft, mMarginTop, mMarginRight, 0, mMarginRelative);
         }
     }
     
     public int AdjustBottomMargin(int bottom)
     {
-        if (BottomAdjustmentDisabled())
-        {
-            return bottom;
-        }
-        else if (!mIsKeyboardVisible)
+        if (!mIsKeyboardVisible)
         {
             return bottom;
         }
