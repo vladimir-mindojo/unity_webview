@@ -476,7 +476,10 @@ public class WebViewObject : MonoBehaviour
             using(AndroidJavaObject Rct = new AndroidJavaObject("android.graphics.Rect"))
             {
                 View.Call("getWindowVisibleDisplayFrame", Rct);
-                mWindowVisibleDisplayFrameHeight = Rct.Call<int>("height");
+                var height = Rct.Call<int>("height");
+                var width = Rct.Call<int>("width");
+
+                mWindowVisibleDisplayFrameHeight = height > width ? height : width;
             }
         }
 #else
